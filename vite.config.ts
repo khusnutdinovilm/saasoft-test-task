@@ -33,6 +33,7 @@ export default defineConfig({
         api: "modern",
         additionalData: `
           @import "styles/variables";
+          @import "styles/functions";
           @import "styles/mixins";
         `,
       },
