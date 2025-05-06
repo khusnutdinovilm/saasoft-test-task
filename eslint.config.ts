@@ -83,6 +83,11 @@ export default defineConfigWithVueTs(
               position: "before",
             },
             {
+              pattern: "assets/**",
+              group: "internal",
+              position: "after",
+            },
+            {
               pattern: "styles/**",
               group: "internal",
               position: "after",
@@ -108,7 +113,17 @@ export default defineConfigWithVueTs(
               position: "after",
             },
             {
-              pattern: "modules/**",
+              pattern: "types/**",
+              group: "internal",
+              position: "after",
+            },
+            {
+              pattern: "services/**",
+              group: "internal",
+              position: "after",
+            },
+            {
+              pattern: "store/**",
               group: "internal",
               position: "after",
             },

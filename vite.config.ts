@@ -18,7 +18,11 @@ export default defineConfig({
 
   resolve: {
     alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
+      store: fileURLToPath(new URL("./src/store/", import.meta.url)),
+      services: fileURLToPath(new URL("./src/services/", import.meta.url)),
+      styles: fileURLToPath(new URL("./src/styles/", import.meta.url)),
+      assets: fileURLToPath(new URL("./src/assets/", import.meta.url)),
+      types: fileURLToPath(new URL("./src/types/", import.meta.url)),
     },
   },
 });
