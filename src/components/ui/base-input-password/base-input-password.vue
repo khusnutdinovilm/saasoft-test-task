@@ -1,6 +1,12 @@
 <template>
   <float-label variant="on">
-    <input-text :id="id" v-model="model" type="text" :invalid="invalid" :disabled="disabled" />
+    <p-password
+      v-model="model"
+      toggle-mask
+      :feedback="false"
+      :invalid="invalid"
+      :disabled="disabled"
+    />
 
     <label v-if="label" :for="id">
       {{ label }}
@@ -10,10 +16,10 @@
 
 <script setup lang="ts">
 import FloatLabel from "primevue/floatlabel";
-import InputText from "primevue/inputtext";
+import PPassword from "primevue/password";
 
 defineOptions({
-  name: "base-input-text",
+  name: "base-input-password",
 });
 
 defineProps<{
