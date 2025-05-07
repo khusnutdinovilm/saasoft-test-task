@@ -10,7 +10,8 @@
       "services/*": ["./src/services"],
       "styles/*": ["./src/styles/*"],
       "assets/*": ["./src/assets/*"],
-      "types/*": ["./src/types/*"]
+      "types/*": ["./src/types/*"],
+      "ui/*": ["./src/components/ui/*"]
     }
   }
 }
