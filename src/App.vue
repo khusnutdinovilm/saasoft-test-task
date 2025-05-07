@@ -1,9 +1,21 @@
 <template>
-  <header></header>
+  <app-header />
 
   <main></main>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import AppHeader from "common/app-header.vue";
+</script>
 
-<style scoped></style>
+<style lang="scss">
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+
+  & main {
+    flex: 1;
+  }
+}
+</style>
