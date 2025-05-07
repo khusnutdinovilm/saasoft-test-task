@@ -24,6 +24,7 @@ export default defineConfig({
       assets: fileURLToPath(new URL("./src/assets/", import.meta.url)),
       types: fileURLToPath(new URL("./src/types/", import.meta.url)),
       ui: fileURLToPath(new URL("./src/components/ui/", import.meta.url)),
+      common: fileURLToPath(new URL("./src/components/common/", import.meta.url)),
     },
   },
 });
