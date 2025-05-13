@@ -8,6 +8,8 @@
     "paths": {
       "store/*": ["./src/store/*"],
       "services/*": ["./src/services/*"],
+      "modules/*": ["./src/modules/*"],
+      "utils/*": ["./src/utils/*"],
       "styles/*": ["./src/styles/*"],
       "assets/*": ["./src/assets/*"],
       "types/*": ["./src/types/*"],

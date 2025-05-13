@@ -20,6 +20,8 @@ export default defineConfig({
     alias: {
       store: fileURLToPath(new URL("./src/store/", import.meta.url)),
       services: fileURLToPath(new URL("./src/services/", import.meta.url)),
+      modules: fileURLToPath(new URL("./src/modules/", import.meta.url)),
+      utils: fileURLToPath(new URL("./src/utils/", import.meta.url)),
       styles: fileURLToPath(new URL("./src/styles/", import.meta.url)),
       assets: fileURLToPath(new URL("./src/assets/", import.meta.url)),
       types: fileURLToPath(new URL("./src/types/", import.meta.url)),
