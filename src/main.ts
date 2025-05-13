@@ -1,0 +1,26 @@
+import "primeicons/primeicons.css";
+import "styles/main.scss";
+
+import { createPinia } from "pinia";
+import { createApp } from "vue";
+
+import Aura from "@primeuix/themes/aura";
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
+import PrimeVue from "primevue/config";
+
+import App from "./App.vue";
+
+const app = createApp(App);
+
+const pinia = createPinia();
+pinia.use(piniaPluginPersistedstate);
+
+app.use(pinia);
+
+app.use(PrimeVue, {
+  theme: {
+    preset: Aura,
+  },
+});
+
+app.mount("#app");
