@@ -5,6 +5,7 @@
     page-title="Учетные записи"
     :is-content-loading="isContentLoading"
     :is-content-empty="isContentEmpty"
+    class="record-list"
   >
     <template #page-content-loading>
       <app-loader />
@@ -24,13 +25,30 @@
       </div>
     </template>
 
-    <template #default></template>
+    <template #default>
+      <record-item
+        v-for="record in recordStore.records"
+        :key="record.id"
+        :record="record"
+        @save-record="rec => saveRecord(record.id, rec)"
+        @delete-record="deleteRecord(record.id)"
+      />
+
+      <record-item
+        v-if="newRecord"
+        :record="newRecord"
+        @save-record="saveNewRecord"
+        @delete-record="resetNewRecord"
+      />
+    </template>
   </page-template>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
 
+import RecordItem from "modules/record/components/record-item.vue";
+import useNewRecordForm from "modules/record/composable/use-new-record-form";
 import useRecordStore from "modules/record/store/record-store";
 
 import EmptyContent from "shared/empty-content.vue";
@@ -39,13 +57,22 @@ import PageTemplate from "shared/page-template.vue";
 import AppHeader from "common/app-header.vue";
 import AppLoader from "common/page-loader.vue";
 
+import type { IRecord } from "modules/record/types/record";
+
 const recordStore = useRecordStore();
 
 const isContentLoading = ref(false);
-const isContentEmpty = computed(() => recordStore.records.length === 0);
+const isContentEmpty = computed(() => recordStore.records.length === 0 && !newRecord.value);
 
-const createNewRecord = () => {
-  console.log("create-new-record");
+const { newRecord, createNewRecord, saveNewRecord, resetNewRecord } = useNewRecordForm();
+
+const deleteRecord = (recordId: IRecord["id"]) => {
+  recordStore.deleteRecord(recordId);
+};
+
+type RecordForm = Omit<IRecord, "id">;
+const saveRecord = (recordId: IRecord["id"], rec: RecordForm) => {
+  recordStore.updateRecord(recordId, rec);
 };
 </script>
 
@@ -75,14 +102,11 @@ const createNewRecord = () => {
   justify-content: center;
 }
 
-.record-item {
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: stretch;
-  gap: 10px;
-
-  &__field {
-    flex: 1;
+.record-list {
+  & .page__content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
 }
 </style>
