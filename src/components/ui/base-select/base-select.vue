@@ -11,17 +11,19 @@
 <script setup lang="ts" generic="T">
 import FloatLabel from "primevue/floatlabel";
 import PrimeSelect from "primevue/select";
+import generateUniqueId from "utils/generate-id";
 
 defineOptions({
   name: "base-select",
 });
 
 defineProps<{
-  id: string;
   optionLabel: string;
   options: T[];
   label?: string;
 }>();
+
+const id = generateUniqueId();
 
 const model = defineModel<T>({ required: true });
 </script>

@@ -19,13 +19,13 @@
 <script setup lang="ts">
 import FloatLabel from "primevue/floatlabel";
 import inputPassword from "primevue/password";
+import generateUniqueId from "utils/generate-id";
 
 defineOptions({
   name: "base-input-password",
 });
 
 defineProps<{
-  id: string;
   label?: string;
   disabled?: boolean;
   invalid?: boolean;
@@ -35,6 +35,8 @@ defineProps<{
 const emits = defineEmits<{
   (e: "on-blur"): void;
 }>();
+
+const id = generateUniqueId();
 
 const model = defineModel<string | null>({ required: true });
 
