@@ -1,17 +1,15 @@
 <template>
-  <float-label variant="on" class="base-select">
-    <prime-select v-model="model" :options="options" :option-label="optionLabel" />
-
-    <label v-if="label" :for="id">
-      {{ label }}
-    </label>
-  </float-label>
+  <base-field :label="label">
+    <template #field="{ id }">
+      <prime-select v-model="model" :options="options" :input-id="id" :option-label="optionLabel" />
+    </template>
+  </base-field>
 </template>
 
 <script setup lang="ts" generic="T">
-import FloatLabel from "primevue/floatlabel";
 import PrimeSelect from "primevue/select";
-import generateUniqueId from "utils/generate-id";
+
+import BaseField from "ui/base-field";
 
 defineOptions({
   name: "base-select",
@@ -23,15 +21,5 @@ defineProps<{
   label?: string;
 }>();
 
-const id = generateUniqueId();
-
 const model = defineModel<T>({ required: true });
 </script>
-
-<style lang="scss">
-.base-select {
-  & .p-select {
-    width: 100%;
-  }
-}
-</style>

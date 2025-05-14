@@ -1,25 +1,23 @@
 <template>
-  <float-label variant="on" class="base-input-password">
-    <input-password
-      :id="id"
-      v-model="model"
-      toggle-mask
-      :feedback="false"
-      :invalid="invalid"
-      :disabled="disabled"
-      @blur="onBlur"
-    />
-
-    <label v-if="label" :for="id">
-      {{ label }}
-    </label>
-  </float-label>
+  <base-field :label="label" class="base-input-password">
+    <template #field="{ id }">
+      <input-password
+        v-model="model"
+        :input-id="id"
+        toggle-mask
+        :feedback="false"
+        :invalid="invalid"
+        :disabled="disabled"
+        @blur="onBlur"
+      />
+    </template>
+  </base-field>
 </template>
 
 <script setup lang="ts">
-import FloatLabel from "primevue/floatlabel";
 import inputPassword from "primevue/password";
-import generateUniqueId from "utils/generate-id";
+
+import BaseField from "ui/base-field";
 
 defineOptions({
   name: "base-input-password",
@@ -36,18 +34,7 @@ const emits = defineEmits<{
   (e: "on-blur"): void;
 }>();
 
-const id = generateUniqueId();
-
 const model = defineModel<string | null>({ required: true });
 
 const onBlur = () => emits("on-blur");
 </script>
-
-<style lang="scss">
-.base-input-password {
-  & .p-password,
-  & input {
-    width: 100%;
-  }
-}
-</style>

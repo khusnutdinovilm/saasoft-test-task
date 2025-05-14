@@ -1,25 +1,23 @@
 <template>
-  <float-label variant="on" class="base-input-text">
-    <input-text
-      :id="id"
-      v-model="model"
-      type="text"
-      :disabled="disabled"
-      :invalid="invalid"
-      :maxlength="maxLength"
-      @blur="onBlur"
-    />
-
-    <label v-if="label" :for="id">
-      {{ label }}
-    </label>
-  </float-label>
+  <base-field :label="label" class="base-input-text">
+    <template #field="{ id }">
+      <input-text
+        :id="id"
+        v-model="model"
+        type="text"
+        :disabled="disabled"
+        :invalid="invalid"
+        :maxlength="maxLength"
+        @blur="onBlur"
+      />
+    </template>
+  </base-field>
 </template>
 
 <script setup lang="ts">
-import FloatLabel from "primevue/floatlabel";
 import InputText from "primevue/inputtext";
-import generateUniqueId from "utils/generate-id";
+
+import BaseField from "ui/base-field";
 
 defineOptions({
   name: "base-input-text",
@@ -36,19 +34,9 @@ const emits = defineEmits<{
   (e: "on-blur"): void;
 }>();
 
-const id = generateUniqueId();
-
 const model = defineModel<string>({ required: true });
 
 const onBlur = () => {
   emits("on-blur");
 };
 </script>
-
-<style lang="scss">
-.base-input-text {
-  & .p-inputtext {
-    width: 100%;
-  }
-}
-</style>
