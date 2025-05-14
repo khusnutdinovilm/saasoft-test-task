@@ -10,6 +10,7 @@
       "services/*": ["./src/services/*"],
       "modules/*": ["./src/modules/*"],
       "utils/*": ["./src/utils/*"],
+      "helpers/*": ["./src/helpers/*"],
       "styles/*": ["./src/styles/*"],
       "assets/*": ["./src/assets/*"],
       "types/*": ["./src/types/*"],
