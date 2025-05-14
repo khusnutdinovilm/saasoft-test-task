@@ -1,7 +1,13 @@
 <template>
   <base-field :label="label">
     <template #field="{ id }">
-      <prime-select v-model="model" :options="options" :input-id="id" :option-label="optionLabel" />
+      <prime-select
+        v-model="model"
+        :options="options"
+        :input-id="id"
+        :option-label="optionLabel"
+        @change="$emit('on-change')"
+      />
     </template>
   </base-field>
 </template>
@@ -19,6 +25,10 @@ defineProps<{
   optionLabel: string;
   options: T[];
   label?: string;
+}>();
+
+defineEmits<{
+  (e: "on-change"): void;
 }>();
 
 const model = defineModel<T>({ required: true });
