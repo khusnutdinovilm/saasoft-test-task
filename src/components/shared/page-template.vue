@@ -64,7 +64,8 @@ const pageContentClasses = computed(() => ({
   &__content {
     flex: 1;
 
-    &--empty {
+    &--empty,
+    &--loading {
       display: flex;
       flex-direction: column;
       align-items: center;
