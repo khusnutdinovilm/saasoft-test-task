@@ -86,6 +86,7 @@ const saveNewRecord = async (rec: RecordForm) => {
 const deleteRecord = async (recordId: IRecord["id"]) => {
   try {
     await recordStore.deleteRecord(recordId);
+
     showSuccessMessage("Учетная запись удалена");
   } catch (error) {
     console.error(error);
@@ -94,6 +95,16 @@ const deleteRecord = async (recordId: IRecord["id"]) => {
 };
 
 const updateRecord = async (recordId: IRecord["id"], payload: RecordForm) => {
+  const currRecord = recordStore.mapRecords.get(recordId);
+  if (!currRecord) return;
+
+  const isChanged = Object.entries(payload).some(([key, newVal]) => {
+    const oldVal = currRecord[key as keyof IRecord];
+    return oldVal !== newVal;
+  });
+
+  if (!isChanged) return;
+
   try {
     await recordStore.updateRecord(recordId, payload);
 
