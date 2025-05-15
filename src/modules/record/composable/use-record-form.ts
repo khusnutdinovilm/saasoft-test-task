@@ -2,6 +2,7 @@ import { ref } from "vue";
 
 import { type IRecord, type RecordForm, type RecordFormErrors } from "modules/record/types/record";
 
+
 export default function useRecordForm(recordForm: IRecord | Omit<IRecord, "id">) {
   const form = ref<RecordForm>({
     label: recordForm.label,

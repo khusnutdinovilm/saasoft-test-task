@@ -3,6 +3,7 @@ import { fileURLToPath, URL } from "node:url";
 import { defineConfig } from "vite";
 import vueDevTools from "vite-plugin-vue-devtools";
 
+
 import vue from "@vitejs/plugin-vue";
 
 // https://vite.dev/config/
@@ -18,8 +19,6 @@ export default defineConfig({
 
   resolve: {
     alias: {
-      store: fileURLToPath(new URL("./src/store/", import.meta.url)),
-      services: fileURLToPath(new URL("./src/services/", import.meta.url)),
       modules: fileURLToPath(new URL("./src/modules/", import.meta.url)),
       utils: fileURLToPath(new URL("./src/utils/", import.meta.url)),
       helpers: fileURLToPath(new URL("./src/helpers/", import.meta.url)),

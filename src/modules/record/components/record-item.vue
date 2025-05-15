@@ -39,16 +39,17 @@
 </template>
 
 <script setup lang="ts">
-import { RECORD_TYPES } from "helpers/record-type";
-import RecordLabelInput from "modules/record/components/record-label-input.vue";
-import useRecordForm from "modules/record/composable/use-record-form";
-import { type IRecord } from "modules/record/types/record";
-
 import BaseInputPassword from "ui/base-input-password";
 import BaseInputText from "ui/base-input-text";
 import BaseSelect from "ui/base-select";
 
 import DeleteBtn from "common/delete-btn.vue";
+
+import RecordLabelInput from "modules/record/components/record-label-input.vue";
+import useRecordForm from "modules/record/composable/use-record-form";
+import { type IRecord } from "modules/record/types/record";
+
+import { RECORD_TYPES } from "helpers/record-type";
 
 defineOptions({
   name: "record-item",

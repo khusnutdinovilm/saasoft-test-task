@@ -2,11 +2,12 @@ import "primeicons/primeicons.css";
 import "styles/main.scss";
 
 import { createPinia } from "pinia";
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import { createApp } from "vue";
 
 import Aura from "@primeuix/themes/aura";
-import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import PrimeVue from "primevue/config";
+
 
 import App from "./App.vue";
 

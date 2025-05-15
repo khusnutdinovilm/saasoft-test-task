@@ -7,6 +7,7 @@ import { ref } from "vue";
 
 import BaseInputText from "ui/base-input-text";
 
+
 import type { RecordLabelType } from "modules/record/types/record";
 
 defineOptions({

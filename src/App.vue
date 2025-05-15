@@ -30,7 +30,7 @@
         v-for="record in recordStore.recordList"
         :key="record.id"
         :record="record"
-        @save-record="rec => saveRecord(record.id, rec)"
+        @save-record="rec => updateRecord(record.id, rec)"
         @delete-record="deleteRecord(record.id)"
       />
 
@@ -47,32 +47,50 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
 
-import RecordItem from "modules/record/components/record-item.vue";
-import useNewRecordForm from "modules/record/composable/use-new-record-form";
-import useRecordStore from "modules/record/store/record-store";
-
 import EmptyContent from "shared/empty-content.vue";
 import PageTemplate from "shared/page-template.vue";
 
 import AppHeader from "common/app-header.vue";
 import AppLoader from "common/page-loader.vue";
 
-import type { IRecord } from "modules/record/types/record";
+import RecordItem from "modules/record/components/record-item.vue";
+import useNewRecordForm from "modules/record/composable/use-new-record-form";
+import useRecordStore from "modules/record/store/record-store";
+import type { IRecord, RecordForm } from "modules/record/types/record";
 
 const recordStore = useRecordStore();
 
 const isContentLoading = ref(true);
 const isContentEmpty = computed(() => !recordStore.recordList.length && !newRecord.value);
 
-const { newRecord, createNewRecord, saveNewRecord, resetNewRecord } = useNewRecordForm();
-
-const deleteRecord = (recordId: IRecord["id"]) => {
-  recordStore.deleteRecord(recordId);
+const { newRecord, createNewRecord, resetNewRecord } = useNewRecordForm();
+const saveNewRecord = async (rec: RecordForm) => {
+  try {
+    await recordStore.createNewRecord(rec);
+    // TODO: success-message
+  } catch (error) {
+    throw error;
+  } finally {
+    resetNewRecord();
+  }
 };
 
-type RecordForm = Omit<IRecord, "id">;
-const saveRecord = (recordId: IRecord["id"], rec: RecordForm) => {
-  recordStore.updateRecord(recordId, rec);
+const deleteRecord = async (recordId: IRecord["id"]) => {
+  try {
+    await recordStore.deleteRecord(recordId);
+    // TODO: success-message
+  } catch (error) {
+    throw error;
+  }
+};
+
+const updateRecord = async (recordId: IRecord["id"], payload: RecordForm) => {
+  try {
+    await recordStore.updateRecord(recordId, payload);
+    // TODO: success-message
+  } catch (error) {
+    throw error;
+  }
 };
 
 onMounted(async () => {
