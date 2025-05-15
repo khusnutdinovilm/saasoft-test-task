@@ -1,48 +1,41 @@
 import { defineStore } from "pinia";
-import { ref, watch } from "vue";
+import { computed, ref } from "vue";
 
-import generateId from "utils/generate-id";
-
-import type { IRecord } from "modules/record/types/record";
-
-const saveRecordsInLocalStorage = (newRecords: IRecord[]) =>
-  localStorage.setItem("records", JSON.stringify(newRecords));
+import recordService from "modules/record/services/record-service";
+import { type IRecord } from "modules/record/types/record";
 
 const useRecordStore = defineStore("record-store", () => {
-  const records_ls = localStorage.getItem("records");
-  const records = ref<IRecord[]>(records_ls ? JSON.parse(records_ls) : []);
-  watch(records, saveRecordsInLocalStorage, { deep: true, immediate: true });
+  const mapRecords = ref<Map<IRecord["id"], IRecord>>(new Map());
+  const recordList = computed(() => Array.from(mapRecords.value.values()));
 
-  const createNewRecord = (payload: Omit<IRecord, "id">) => {
-    const newRecord = {
-      ...payload,
-      id: generateId(),
-    };
+  const getRecords = async () => {
+    const records = await recordService.getRecords();
 
-    records.value = [...records.value, newRecord];
+    mapRecords.value = new Map(records.map(record => [record.id, record]));
   };
 
-  const deleteRecord = (id: IRecord["id"]) => {
-    const idx = records.value.findIndex(record => record.id === id);
+  const createNewRecord = async (payload: Omit<IRecord, "id">) => {
+    const newRecord = await recordService.createRecord(payload);
 
-    if (idx !== -1) {
-      records.value.splice(idx, 1);
-    }
+    mapRecords.value.set(newRecord.id, newRecord);
   };
 
-  const updateRecord = (id: IRecord["id"], payload: Partial<IRecord>) => {
-    const idx = records.value.findIndex(record => record.id === id);
+  const updateRecord = async (id: IRecord["id"], payload: Partial<IRecord>) => {
+    const updatedRecord = await recordService.updateRecord(id, payload);
 
-    if (idx !== -1) {
-      records.value[idx] = {
-        ...records.value[idx],
-        ...payload,
-      };
-    }
+    mapRecords.value.set(updatedRecord.id, updatedRecord);
+  };
+
+  const deleteRecord = async (id: IRecord["id"]) => {
+    await recordService.deleteRecord(id);
+
+    mapRecords.value.delete(id);
   };
 
   return {
-    records,
+    mapRecords,
+    recordList,
+    getRecords,
     createNewRecord,
     deleteRecord,
     updateRecord,

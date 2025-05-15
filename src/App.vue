@@ -27,7 +27,7 @@
 
     <template #default>
       <record-item
-        v-for="record in recordStore.records"
+        v-for="record in recordStore.recordList"
         :key="record.id"
         :record="record"
         @save-record="rec => saveRecord(record.id, rec)"
@@ -45,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 
 import RecordItem from "modules/record/components/record-item.vue";
 import useNewRecordForm from "modules/record/composable/use-new-record-form";
@@ -61,8 +61,8 @@ import type { IRecord } from "modules/record/types/record";
 
 const recordStore = useRecordStore();
 
-const isContentLoading = ref(false);
-const isContentEmpty = computed(() => recordStore.records.length === 0 && !newRecord.value);
+const isContentLoading = ref(true);
+const isContentEmpty = computed(() => !recordStore.recordList.length && !newRecord.value);
 
 const { newRecord, createNewRecord, saveNewRecord, resetNewRecord } = useNewRecordForm();
 
@@ -74,6 +74,16 @@ type RecordForm = Omit<IRecord, "id">;
 const saveRecord = (recordId: IRecord["id"], rec: RecordForm) => {
   recordStore.updateRecord(recordId, rec);
 };
+
+onMounted(async () => {
+  try {
+    await recordStore.getRecords();
+  } catch (error) {
+    console.log(error);
+  } finally {
+    isContentLoading.value = false;
+  }
+});
 </script>
 
 <style lang="scss">
