@@ -4,7 +4,6 @@ import { computed, ref } from "vue";
 import recordService from "modules/record/services/record-service";
 import { type IRecord } from "modules/record/types/record";
 
-
 const useRecordStore = defineStore("record-store", () => {
   const mapRecords = ref<Map<IRecord["id"], IRecord>>(new Map());
   const recordList = computed(() => Array.from(mapRecords.value.values()));

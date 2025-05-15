@@ -42,10 +42,15 @@
       />
     </template>
   </page-template>
+
+  <primevue-toast position="bottom-right" group="br" />
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
+
+import PrimevueToast from "primevue/toast";
+import useToast from "utils/use-toast";
 
 import EmptyContent from "shared/empty-content.vue";
 import PageTemplate from "shared/page-template.vue";
@@ -59,6 +64,7 @@ import useRecordStore from "modules/record/store/record-store";
 import type { IRecord, RecordForm } from "modules/record/types/record";
 
 const recordStore = useRecordStore();
+const { showSuccessMessage, showErrorMessage } = useToast();
 
 const isContentLoading = ref(true);
 const isContentEmpty = computed(() => !recordStore.recordList.length && !newRecord.value);
@@ -67,9 +73,11 @@ const { newRecord, createNewRecord, resetNewRecord } = useNewRecordForm();
 const saveNewRecord = async (rec: RecordForm) => {
   try {
     await recordStore.createNewRecord(rec);
-    // TODO: success-message
+
+    showSuccessMessage("Учетная запись создана");
   } catch (error) {
-    throw error;
+    console.error(error);
+    showErrorMessage("Не удалось создать учетную запись");
   } finally {
     resetNewRecord();
   }
@@ -78,18 +86,21 @@ const saveNewRecord = async (rec: RecordForm) => {
 const deleteRecord = async (recordId: IRecord["id"]) => {
   try {
     await recordStore.deleteRecord(recordId);
-    // TODO: success-message
+    showSuccessMessage("Учетная запись удалена");
   } catch (error) {
-    throw error;
+    console.error(error);
+    showErrorMessage("Не удалось удалить учетную запись");
   }
 };
 
 const updateRecord = async (recordId: IRecord["id"], payload: RecordForm) => {
   try {
     await recordStore.updateRecord(recordId, payload);
-    // TODO: success-message
+
+    showSuccessMessage("Учетная запись обновлена");
   } catch (error) {
-    throw error;
+    console.error(error);
+    showErrorMessage("Не удалось обновить учетную запись");
   }
 };
 
@@ -98,6 +109,7 @@ onMounted(async () => {
     await recordStore.getRecords();
   } catch (error) {
     console.log(error);
+    showErrorMessage("Не удалось список учетных записей");
   } finally {
     isContentLoading.value = false;
   }
