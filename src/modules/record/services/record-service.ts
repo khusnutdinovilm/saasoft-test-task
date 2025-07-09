@@ -1,14 +1,32 @@
 import generateUniqueId from "utils/generate-id";
 
 import type { IRecord } from "modules/record/types/record";
+import isValidRecord from "modules/record/utils/validate-record";
 
 class RecordService {
   private records: IRecord[];
 
   constructor() {
-    const records_ls = localStorage.getItem("records");
+    this.records = this.loadRecordFromLs();
+  }
 
-    this.records = records_ls ? JSON.parse(records_ls) : [];
+  private loadRecordFromLs(): IRecord[] {
+    try {
+      const recordsLS = localStorage.getItem("records");
+
+      if (!recordsLS) return [];
+
+      const parsedRecord = JSON.parse(recordsLS);
+
+      if (!Array.isArray(parsedRecord)) return [];
+
+      const validRecords = parsedRecord.filter(isValidRecord);
+
+      return validRecords;
+    } catch (error) {
+      console.error("Ошибка при чтении данных из LocalStorage", error);
+      return [];
+    }
   }
 
   async getRecords(): Promise<IRecord[]> {
